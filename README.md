@@ -5,4 +5,4 @@ Team Name: PieDong
 List of Features:
 - light
 - set
-- mesh
+- mesh(triangles)
