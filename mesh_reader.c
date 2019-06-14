@@ -7,3 +7,5 @@
 #include "matrix.h"
 #include "draw.h"
 #include "mesh_reader.h"
+
+int file(char * f, 
