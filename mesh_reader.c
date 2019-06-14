@@ -8,4 +8,20 @@
 #include "draw.h"
 #include "mesh_reader.h"
 
-int file(char * f, 
+int read_obj_file(char *path, struct mesh *ms) {
+
+  struct matrix *mx, *face, *vert;
+
+  mx = ms->point;
+  face = ms->face;
+  vert = ms->vert;
+  
+  FILE *f = fopen(path, "r");
+  char *line = NULL;
+  size_t read, len = 0;
+
+  if (f == NULL)
+    printf("Error: No such file exists\n");
+
+}
+  
