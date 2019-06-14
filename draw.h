@@ -4,6 +4,7 @@
 
 #include "matrix.h"
 #include "ml6.h"
+#include "light.h"
 #include "symtab.h"
 
 void draw_scanline(int x0, double z0, int x1, double z1, int y, screen s, zbuffer zb, color c);
@@ -15,7 +16,7 @@ void add_polygons( struct matrix * polys,
                    double x1, double y1, double z1,
                    double x2, double y2, double z2);
 void draw_polygons( struct matrix * polys, screen s, zbuffer zb,
-                    double *view, double light[2][3], color ambient,
+                    double *view, double light[MAX][2][3], color ambient,
                     struct constants *reflect);
 
 //advanced shapes
@@ -54,4 +55,6 @@ void draw_line(int x0, int y0, double z0,
                int x1, int y1, double z1,
                screen s, zbuffer zb, color c);
 
+void add_mesh(struct matrix *, char *);
+struct mesh *generate_mesh(char*);
 #endif

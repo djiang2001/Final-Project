@@ -8,6 +8,8 @@
 #include "math.h"
 #include "gmath.h"
 #include "symtab.h"
+#include "mesh_reader.h"
+#include "mesh.h"
 
 /*======== void draw_scanline() ==========
   Inputs: struct matrix *points
@@ -223,6 +225,63 @@ void draw_polygons( struct matrix *polygons, screen s, zbuffer zb,
   }
 }
 
+void add_mesh(struct matrix *polygons, char *fn){
+  struct mesh *mc = generate_mesh(fn);
+  struct matrix *pt, *face, *vert;
+
+  pt = mc->point;
+  face = mc->face;
+  vert = mc->vert;
+
+  int x1,x2,x3,x4;
+  double j1[3],j2[3],j3[3],j4[3];
+
+  int i;
+
+  for(i=0;i<face->lastcol;i++){
+    x1 = (face->m)[0][i];
+    x2 = (face->m)[1][i];
+    x3 = (face->m)[2][i];
+    x4 = (face->m)[3][i];
+
+    int coord;
+    for(coord = 0; coord < 3; coord++) {
+      if(x4 > 0) {
+	j1[coord] = (pt->m)[coord][x1-1];
+	j2[coord] = (pt->m)[coord][x2-1];
+	j3[coord] = (pt->m)[coord][x3-1];
+	j4[coord] = (pt->m)[coord][x4-1];
+      }
+      else {	
+	j1[coord] = (pt->m)[coord][x1-1];
+	j2[coord] = (pt->m)[coord][x2-1];
+	j3[coord] = (pt->m)[coord][x3-1];
+      }
+    }
+
+    
+    if(x4 > 0) {
+      add_polygon(polygons, j1[0], j1[1], j1[2], j2[0], j2[1], j2[2], j3[0], j3[1], j3[2]);
+      add_polygon(polygons, j1[0], j1[1], j1[2], j3[0], j3[1], j3[2], j4[0], j4[1], j4[2]);
+    } else {
+      add_polygon(polygons, j1[0], j1[1], j1[2], j2[0], j2[1], j2[2], j3[0], j3[1], j3[2]);
+    }
+  }
+
+  free_mesh(mc);
+}
+
+struct mesh *generate_mesh(char *fn){
+  struct mesh *rm = (struct mesh *)malloc(sizeof(struct mesh));
+  
+  rm->point = new_matrix(4, 100);
+  rm->face = new_matrix(4, 100);
+  rm->vert = new_matrix(4, 100);
+  
+  read_mesh(fn, rm);
+
+  return rm;
+}
 /*======== void add_box() ==========
   Inputs:   struct matrix * edges
             double x
