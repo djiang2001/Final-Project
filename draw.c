@@ -178,7 +178,7 @@ void add_polygon( struct matrix *polygons,
   lines connecting each points to create bounding triangles
   ====================*/
 void draw_polygons( struct matrix *polygons, screen s, zbuffer zb,
-                    double *view, double light[2][3], color ambient,
+                    double *view, double light[MAX][2][3], color ambient,
                     struct constants *reflect) {
   if ( polygons->lastcol < 3 ) {
     printf("Need at least 3 points to draw a polygon!\n");
