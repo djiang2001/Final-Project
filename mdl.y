@@ -5,6 +5,7 @@
   #include <string.h>
   #include "parser.h"
   #include "matrix.h"
+  #include "mesh_reader.h"
 
   #define YYERROR_VERBOSE 1
 
@@ -390,6 +391,15 @@ LINE STRING DOUBLE DOUBLE DOUBLE STRING DOUBLE DOUBLE DOUBLE STRING
   op[lastop].op.line.cs0 = add_symbol($6,SYM_MATRIX,m);
   m = (struct matrix *)new_matrix(4,4);
   op[lastop].op.line.cs1 = add_symbol($10,SYM_MATRIX,m);
+  lastop++;
+}|
+MESH STRING
+{
+  lineno++;
+  op[lastop].opcode = MESH;
+  strcpy(op[lastop].op.mesh.name,$2);
+  op[lastop].op.mesh.constants = NULL;
+  op[lastop].op.mesh.cs = NULL;
   lastop++;
 }|
 

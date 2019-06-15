@@ -48,6 +48,7 @@
 #include "draw.h"
 #include "stack.h"
 #include "gmath.h"
+#include "mesh_reader.h"
 
 /*======== void first_pass() ==========
   Inputs:
@@ -178,6 +179,7 @@ void my_main() {
 
   int i;
   struct matrix *tmp;
+  struct matrix *face;
   struct stack *systems;
   screen t;
   zbuffer zb;
@@ -319,6 +321,13 @@ void my_main() {
 	  tmp->lastcol = 0;
 	  reflect = &white;
 	  break;
+	  case MESH:
+	  add_mesh(tmp, op[i].op.mesh.name);
+	  matrix_mult(peek(systems), tmp);
+	  draw_polygons(tmp, t, zb, view, light, ambient,
+		        reflect);	
+	  tmp->lastcol = 0;
+	  break;	 	  
 	case LINE:
 	  printf("Line: from: %6.2f %6.2f %6.2f to: %6.2f %6.2f %6.2f",
 		 op[i].op.line.p0[0],op[i].op.line.p0[1],
