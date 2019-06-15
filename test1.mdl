@@ -1,0 +1,11 @@
+frames 50
+basename test1
+ambient 30 30 30
+
+push
+move 300 300 0
+rotate y 360 spin
+scale 10 10 10
+mesh : bunny2.obj
+pop
+vary spin 0 50 0 1 2 0
